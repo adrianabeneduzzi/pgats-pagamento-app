@@ -1,0 +1,21 @@
+export default class ServicoDePagamento {
+
+    pagamentos = [];
+
+    pagar(codigoBarras, empresa, valor) {
+
+        const pagamento = {
+            codigoBarras,
+            empresa,
+            valor,
+            categoria: valor > 100 ? 'cara' : 'padrão'
+        };
+
+        this.pagamentos.push(pagamento);
+    }
+
+    consultarUltimoPagamento() {
+        return this.pagamentos[this.pagamentos.length - 1];
+    }
+
+}
