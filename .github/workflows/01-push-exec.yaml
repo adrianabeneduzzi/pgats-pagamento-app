@@ -1,15 +1,8 @@
-name: CI Pagamento App
+name: CI - Push
 
 on:
   push:
     branches: [ main ]
-
-  workflow_dispatch:
-
-  # ⏰ Rodar amanhã de manhã e tarde 
-  schedule:
-    - cron: '0 11 * * *'  # 08:00 BR (manhã)
-    - cron: '0 17 * * *'  # 14:00 BR (tarde)
 
 jobs:
   testes:
@@ -33,7 +26,7 @@ jobs:
       - name: Criar pasta de relatórios
         run: mkdir -p reports
 
-      - name: Gerar relatório detalhado
+      - name: Gerar relatório de testes
         run: |
           echo "===================================" > reports/relatorio.txt
           echo "      RELATÓRIO DE PIPELINE       " >> reports/relatorio.txt
@@ -43,14 +36,14 @@ jobs:
           echo "📅 Data: $(date)" >> reports/relatorio.txt
           echo "🌿 Branch: $GITHUB_REF_NAME" >> reports/relatorio.txt
           echo "🔗 Commit: $GITHUB_SHA" >> reports/relatorio.txt
-          echo "🚀 Trigger: $GITHUB_EVENT_NAME" >> reports/relatorio.txt
+          echo "👤 Executor: GitHub Actions" >> reports/relatorio.txt
 
           echo "" >> reports/relatorio.txt
           echo "📦 Etapas executadas:" >> reports/relatorio.txt
           echo "- Checkout do código" >> reports/relatorio.txt
           echo "- Setup Node.js" >> reports/relatorio.txt
           echo "- Instalação de dependências" >> reports/relatorio.txt
-          echo "- Execução de testes" >> reports/relatorio.txt
+          echo "- Execução de testes (npm test)" >> reports/relatorio.txt
           echo "- Geração de relatório" >> reports/relatorio.txt
 
           echo "" >> reports/relatorio.txt
@@ -58,6 +51,7 @@ jobs:
 
       - name: Upload relatório
         uses: actions/upload-artifact@v4
+        if: ${{ always() }}
         with:
-          name: relatorio-testes
+          name: relatorio-push
           path: reports/
