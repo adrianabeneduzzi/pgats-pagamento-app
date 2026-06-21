@@ -11,22 +11,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Instalar dependências
         run: npm ci
 
-      - name: Executar testes
-        run: npm test
-
       - name: Criar pasta de relatórios
         run: mkdir -p reports
 
-      - name: Gerar relatório de testes
+      - name: Executar testes
+        run: npm test
+
+      - name: Gerar relatório (base)
         run: |
           echo "===================================" > reports/relatorio.txt
           echo "      RELATÓRIO DE PIPELINE       " >> reports/relatorio.txt
@@ -46,11 +48,13 @@ jobs:
           echo "- Instalação de dependências" >> reports/relatorio.txt
           echo "- Execução de testes (npm test)" >> reports/relatorio.txt
 
-          if [ $? -eq 0 ]; then
-            echo "📊 Resultado final: SUCESSO" >> reports/relatorio.txt
-          else
-            echo "📊 Resultado final: FALHA" >> reports/relatorio.txt
-          fi
+      - name: Resultado SUCESSO
+        if: success()
+        run: echo "📊 Resultado final: SUCESSO" >> reports/relatorio.txt
+
+      - name: Resultado FALHA
+        if: failure()
+        run: echo "📊 Resultado final: FALHA" >> reports/relatorio.txt
 
       - name: Upload relatório
         uses: actions/upload-artifact@v4
