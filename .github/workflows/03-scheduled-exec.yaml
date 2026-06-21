@@ -1,0 +1,58 @@
+name: CI - Scheduled
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # a cada 30 minutos
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Executar testes
+        run: npm test
+
+      - name: Criar pasta de relatórios
+        run: mkdir -p reports
+
+      - name: Gerar relatório de testes
+        run: |
+          echo "===================================" > reports/relatorio.txt
+          echo "      RELATÓRIO DE PIPELINE       " >> reports/relatorio.txt
+          echo "===================================" >> reports/relatorio.txt
+
+          echo "" >> reports/relatorio.txt
+          echo "📅 Data: $(date)" >> reports/relatorio.txt
+          echo "🌿 Branch: $GITHUB_REF_NAME" >> reports/relatorio.txt
+          echo "🔗 Commit: $GITHUB_SHA" >> reports/relatorio.txt
+          echo "👤 Executor: GitHub Actions" >> reports/relatorio.txt
+          echo "🚀 Trigger: SCHEDULE" >> reports/relatorio.txt
+
+          echo "" >> reports/relatorio.txt
+          echo "📦 Etapas executadas:" >> reports/relatorio.txt
+          echo "- Checkout do código" >> reports/relatorio.txt
+          echo "- Setup Node.js" >> reports/relatorio.txt
+          echo "- Instalação de dependências" >> reports/relatorio.txt
+          echo "- Execução de testes (npm test)" >> reports/relatorio.txt
+          echo "- Geração de relatório" >> reports/relatorio.txt
+
+          echo "" >> reports/relatorio.txt
+          echo "📊 Resultado final: SUCESSO" >> reports/relatorio.txt
+
+      - name: Upload relatório
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: relatorio-schedule
+          path: reports/
