@@ -46,3 +46,58 @@ npm test
 - Node.js
 - Mocha
 - Node Assert
+
+---
+
+# 🔄 Pipeline de Integração Contínua (CI)
+
+Este projeto utiliza **GitHub Actions** para automatizar a execução dos testes e garantir a validação contínua da aplicação a cada alteração no código.
+
+## ⚙️ Eventos de Execução da Pipeline
+
+A pipeline foi configurada para ser executada de três formas:
+
+### 📌 Execução por Push
+A pipeline é disparada automaticamente sempre que um novo commit é enviado para a branch principal (`main`).
+
+### ▶️ Execução Manual
+Também é possível executar a pipeline manualmente através da opção **Run workflow** disponível na aba **Actions** do GitHub.
+
+### ⏰ Execução Agendada (Schedule)
+Foi configurada uma execução automática em horário programado utilizando **cron**, permitindo validações periódicas mesmo sem alterações no código.
+
+---
+
+## 🧪 Etapas da Pipeline
+
+Durante a execução, a pipeline realiza as seguintes etapas:
+
+1. Checkout do código-fonte  
+2. Configuração do ambiente Node.js  
+3. Instalação das dependências do projeto  
+4. Execução dos testes automatizados com Mocha  
+5. Geração do relatório de execução  
+6. Armazenamento do relatório como artifact  
+
+---
+
+## 📊 Relatório de Testes
+
+Após a execução dos testes, um relatório é gerado automaticamente e armazenado na pipeline por meio de **Artifacts** do GitHub Actions.
+
+Esse relatório permite consultar posteriormente o resultado da execução, auxiliando na rastreabilidade e análise de falhas.
+
+---
+
+## 🛠️ Ferramentas Utilizadas
+
+- **GitHub Actions** — Orquestração da pipeline CI  
+- **Node.js** — Ambiente de execução da aplicação  
+- **Mocha** — Framework de testes automatizados  
+- **Artifacts (GitHub)** — Armazenamento de relatórios  
+
+---
+
+## ✅ Evidência de Execução
+
+A pipeline foi executada com sucesso, validando todos os testes automatizados e gerando o relatório de execução conforme os requisitos da atividade.
