@@ -102,8 +102,4 @@ Esse relatório pode ser baixado na aba **Actions → Artifacts**, permitindo an
 
 # 📎 Evidência de Execução
 
-A pipeline foi executada com sucesso, validando todos os testes automatizados e gerando o relatório de execução.
-
-A evidência pode ser consultada diretamente na aba **Actions** do repositório GitHub.
-
-A pipeline foi executada com sucesso, validando todos os testes automatizados e gerando o relatório de execução conforme os requisitos da atividade.
+A evidência pode ser consultada diretamente na aba **Actions** do repositório GitHub, onde estão registradas as execuções da pipeline e os artifacts gerados.
