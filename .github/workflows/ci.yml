@@ -27,3 +27,15 @@ jobs:
 
       - name: Executar testes
         run: npm test
+
+      - name: Criar pasta de relatórios
+        run: mkdir reports
+
+      - name: Gerar relatório
+        run: echo "Pipeline executada com sucesso" > reports/relatorio.txt
+
+      - name: Upload relatório
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-testes
+          path: reports/
