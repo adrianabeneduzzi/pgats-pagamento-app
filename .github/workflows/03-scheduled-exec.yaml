@@ -1,24 +1,24 @@
 name: CI - Scheduled
 
 on:
+  workflow_dispatch:
+
   schedule:
-    - cron: '*/30 * * * *'  # a cada 30 minutos
+    - cron: '*/30 * * * *'
 
 jobs:
   testes:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Instalar dependências
-        run: npm install
+        run: npm ci
 
       - name: Executar testes
         run: npm test
@@ -45,10 +45,12 @@ jobs:
           echo "- Setup Node.js" >> reports/relatorio.txt
           echo "- Instalação de dependências" >> reports/relatorio.txt
           echo "- Execução de testes (npm test)" >> reports/relatorio.txt
-          echo "- Geração de relatório" >> reports/relatorio.txt
 
-          echo "" >> reports/relatorio.txt
-          echo "📊 Resultado final: SUCESSO" >> reports/relatorio.txt
+          if [ $? -eq 0 ]; then
+            echo "📊 Resultado final: SUCESSO" >> reports/relatorio.txt
+          else
+            echo "📊 Resultado final: FALHA" >> reports/relatorio.txt
+          fi
 
       - name: Upload relatório
         uses: actions/upload-artifact@v4
